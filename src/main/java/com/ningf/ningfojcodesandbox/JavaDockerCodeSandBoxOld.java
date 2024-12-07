@@ -235,6 +235,7 @@ public class JavaDockerCodeSandBoxOld implements CodeSandBox {
         ExecuteCodeResponse executeCodeResponse = new ExecuteCodeResponse();
         List<String> outputList = new ArrayList<>();
         long maxTime = 0;
+        long maxMemory = 0;
         for (ExecuteMessage executeMessage : executeMessageList) {
             if (StrUtil.isNotBlank(executeMessage.getErrorMessage())) {
                 executeCodeResponse.setMessage(executeMessage.getErrorMessage());
@@ -244,8 +245,12 @@ public class JavaDockerCodeSandBoxOld implements CodeSandBox {
             }
             outputList.add(executeMessage.getMessage());
             Long time = executeMessage.getTime();
+            Long memory = executeMessage.getMemory();
             if (time != null) {
                 maxTime = Math.max(maxTime, time);
+            }
+            if(memory!= null){
+                maxMemory = Math.max(maxMemory,memory);
             }
         }
         //执行代码正常
@@ -256,7 +261,7 @@ public class JavaDockerCodeSandBoxOld implements CodeSandBox {
 
         JudgeInfo judgeInfo = new JudgeInfo();
         judgeInfo.setTimeLimit(maxTime);
-        //todo 获取memory使用
+        judgeInfo.setMemoryLimit(maxMemory);
         executeCodeResponse.setJudgeInfo(judgeInfo);
 
         //多余文件清理

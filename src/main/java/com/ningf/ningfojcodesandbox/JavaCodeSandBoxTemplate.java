@@ -56,7 +56,7 @@ public class JavaCodeSandBoxTemplate implements CodeSandBox{
     /**
      * 1.将用户的题解代码保存为文件
      * @param code
-     * @return
+     * @return file
      */
     public File saveCode2File(String code){
         String userDir = System.getProperty("user.dir");
@@ -67,7 +67,7 @@ public class JavaCodeSandBoxTemplate implements CodeSandBox{
         }
 
         //把用户代码隔离存放
-        String userCodeParentPath = globalCodePathName + File.separator + UUID.randomUUID().toString();
+        String userCodeParentPath = globalCodePathName + File.separator + UUID.randomUUID();
         String userCodePath = userCodeParentPath + File.separator + GLOBAL_JAVA_CLASS_NAME;
         File userCodeFile = FileUtil.writeString(code, userCodePath, StandardCharsets.UTF_8);
         return userCodeFile;
